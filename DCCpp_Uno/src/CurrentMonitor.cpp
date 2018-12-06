@@ -10,6 +10,7 @@ Part of DCC++ BASE STATION for the Arduino
 #include "DCCpp.h"
 #include "CurrentMonitor.h"
 #include "CommInterface.h"
+#include "Config.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -117,13 +118,14 @@ void MotorBoardManager::powerOnAll() {
 		}
 	}
 	CommManager::printf("<p1>");
-#if defined(LCD_ENABLED) && LCD_LINES > 2
-	if(lcdEnabled) {
-		lcdDisplay.setCursor(12, 3);
-		lcdDisplay.print("ON ");
-	}
-#endif
+	#ifdef ENABLE_LCD && LCD_LINES > 2
+		if(lcdEnabled) {
+			lcdDisplay.setCursor(13, 3);
+			lcdDisplay.print("ON ");
+		}
+	#endif
 }
+
 
 void MotorBoardManager::powerOffAll() {
 	for(int i = 0; i < MAX_MOTOR_BOARDS; i++) {
@@ -132,12 +134,12 @@ void MotorBoardManager::powerOffAll() {
 		}
 	}
 	CommManager::printf("<p0>");
-#if defined(LCD_ENABLED) && LCD_LINES > 2
-	if(lcdEnabled) {
-		lcdDisplay.setCursor(12, 3);
-		lcdDisplay.print("OFF");
-	}
-#endif
+	#ifdef ENABLE_LCD && LCD_LINES > 2
+		if(lcdEnabled) {
+			lcdDisplay.setCursor(13, 3);
+			lcdDisplay.print("OFF");
+		}
+	#endif
 }
 
 void MotorBoardManager::parse(const char *com) {
